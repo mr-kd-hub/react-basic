@@ -1,22 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchDataAction } from './redux/actions/actions';
+import { AppDispatch, RootState } from './redux/store';
+import List from './List/List';
 
 function App() {
+  const dispatch = useDispatch<AppDispatch>()
+  const posts = useSelector((state: RootState) => state.data.posts || []);
+
+  useEffect(()=>{
+    dispatch(fetchDataAction())
+  },[dispatch]) 
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <List list={posts} />
     </div>
   );
 }
